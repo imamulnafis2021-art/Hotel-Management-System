@@ -174,11 +174,12 @@ This project demonstrates:
 
 ##  Author
 
-**MD Imamul Hasan Nafis**
-
-Artificial Intelligence Undergraduate
-
-Yunnan University, China
+**MD Imamul Hasan**
+**Siam Md Shakil Ahmed**
+**Hossain Md Pial**
+**HASAN RATUL**
+**IMANE TAHIRI ALAOUI**
+Yunnan University
 
 ---
 
