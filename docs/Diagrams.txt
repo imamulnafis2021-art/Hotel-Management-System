@@ -1,0 +1,329 @@
+============================================================
+     STARLIGHT HOTEL MANAGEMENT SYSTEM v7.0
+              SYSTEM DIAGRAMS (ASCII)
+============================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DIAGRAM 1: USE CASE DIAGRAM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ┌──────────────────────────────────────────────────────────────┐
+  │                  STARLIGHT HMS SYSTEM                        │
+  │                                                              │
+  │  ┌─────────────────────────────────────┐                    │
+  │  │           ROOM MANAGEMENT           │                    │
+  │  │  (Add/View/Modify/Delete/Search/Sort│──────── Admin ─────┼──┐
+  │  │   Recommend)                        │                    │  │
+  │  └─────────────────────────────────────┘                    │  │
+  │                                                              │  │
+  │  ┌─────────────────────────────────────┐                    │  │
+  │  │         BOOKING MANAGEMENT          │                    │  │
+  │  │  (Book Room, View, Details,         │──── Receptionist ──┼──┤
+  │  │   Checkout, Search, Sort)           │         │          │  │
+  │  └─────────────────────────────────────┘         │          │  │
+  │                                                   │          │  │
+  │  ┌─────────────────────────────────────┐         │          │  │
+  │  │          HOTEL SERVICES             │         │          │  │
+  │  │  (Food, Laundry, Transport,         │─────────┘          │  │
+  │  │   Complaints)                       │                    │  │
+  │  └─────────────────────────────────────┘                    │  │
+  │                                                              │  │
+  │  ┌─────────────────────────────────────┐                    │  │
+  │  │         STAFF MANAGEMENT            │──────────── Admin ─┼──┤
+  │  │  (Add/View/Search/Sort/Remove)      │                    │  │
+  │  └─────────────────────────────────────┘                    │  │
+  │                                                              │  │
+  │  ┌─────────────────────────────────────┐                    │  │
+  │  │       REPORTS & DASHBOARD           │────── Manager ─────┼──┘
+  │  │  (Dashboard, Revenue, Advanced KPI) │         │          │
+  │  └─────────────────────────────────────┘         │          │
+  │                                                   │          │
+  │  ┌─────────────────────────────────────┐         │          │
+  │  │          AUTHENTICATION             │─────────┘          │
+  │  │  (Login, Role-Based Access)         │ (all roles)        │
+  │  └─────────────────────────────────────┘                    │
+  └──────────────────────────────────────────────────────────────┘
+
+  Actors:
+    Admin        → Full access (all 31 menu options)
+    Receptionist → Front desk (11 options: booking, services)
+    Manager      → Reports + staff (10 options)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DIAGRAM 2: CLASS DIAGRAM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ┌────────────────────────────┐
+  │    <<abstract>> Person     │
+  ├────────────────────────────┤
+  │ # name : string            │
+  │ # phone : string           │
+  │ # address : string         │
+  │ # email : string           │
+  ├────────────────────────────┤
+  │ + getName() : string       │
+  │ + getPhone() : string      │
+  │ + displayInfo() = 0 : void │  ← PURE VIRTUAL
+  └──────────────┬─────────────┘
+         ◁───────┴───────▷
+  ┌───────────────┐       ┌──────────────────┐
+  │   Customer    │       │      Staff       │
+  ├───────────────┤       ├──────────────────┤
+  │ bookingId:int │       │ staffId : int    │
+  │ nid : string  │       │ position: string │
+  │ roomId: string│       │ salary : double  │
+  │ days : int    │       │ shift  : string  │
+  │ totalBill:dbl │       │ joinDate: string │
+  │ payStatus:str │       │ active : bool    │
+  ├───────────────┤       ├──────────────────┤
+  │displayInfo()  │       │ displayInfo()    │
+  │displayFull()  │       │ displayRow()     │
+  │displayRow()   │       └──────────────────┘
+  └───────────────┘
+
+  ┌─────────────────────────────────────┐
+  │         HotelManagementSystem       │
+  ├─────────────────────────────────────┤
+  │ - rooms      : vector<Room>         │
+  │ - customers  : vector<Customer>     │
+  │ - staffList  : vector<Staff>        │
+  │ - foodOrders : vector<FoodOrder>    │
+  │ - complaints : vector<Complaint>    │
+  │ - payments   : vector<Payment>      │
+  │ - laundry    : vector<Laundry>      │
+  │ - transport  : vector<Transport>    │
+  │ - currentRole: string               │
+  ├─────────────────────────────────────┤
+  │ + run()                             │
+  │ + bookRoom()                        │
+  │ + checkout()                        │
+  │ + showDashboard() const             │
+  │ + showAdvancedDashboard() const     │
+  └─────────────────────────────────────┘
+           │ uses
+  ┌────────▼────────────────────────────┐
+  │            FileManager              │
+  ├─────────────────────────────────────┤
+  │ + saveRooms() : static void         │
+  │ + loadRooms() : static void         │
+  │ + saveCustomers() : static void     │
+  │ + authenticate() : static bool      │
+  │ + generateInvoice() : static void   │
+  └─────────────────────────────────────┘
+
+  ┌─────────────┐  ┌──────────────┐
+  │    Room     │  │  Booking.h   │
+  ├─────────────┤  │ (structs)    │
+  │ id : string │  ├──────────────┤
+  │ type: string│  │ FoodOrder    │
+  │ price: dbl  │  │ Complaint    │
+  │ booked: bool│  │ Laundry      │
+  ├─────────────┤  │ Transport    │
+  │displayRow() │  │ Payment      │
+  │displayFull()│  │ Housekeeping │
+  └─────────────┘  └──────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DIAGRAM 3: ENTITY RELATIONSHIP (ER) DIAGRAM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ┌────────────┐       books        ┌─────────────┐
+  │  CUSTOMER  │───────────────────▶│    ROOM     │
+  │────────────│  1        1..1     │─────────────│
+  │ bookingId  │                    │ roomId (PK) │
+  │ name       │                    │ type        │
+  │ phone      │                    │ price       │
+  │ email      │                    │ capacity    │
+  │ roomId(FK) │                    │ booked      │
+  └─────┬──────┘                    └─────────────┘
+        │
+        │ 1 generates
+        │
+  ┌─────▼──────┐
+  │  PAYMENT   │
+  │────────────│
+  │ paymentId  │
+  │ bookingId  │
+  │ amount     │
+  │ method     │
+  │ status     │
+  └────────────┘
+        │
+        │ 1 includes
+        │
+        ├──────────────────────────────────────────┐
+        │                                          │
+  ┌─────▼──────┐   ┌────────────┐   ┌─────────────▼────┐
+  │ FOOD_ORDER │   │  LAUNDRY   │   │   TRANSPORT      │
+  │────────────│   │────────────│   │──────────────────│
+  │ orderId    │   │ laundryId  │   │ transportId      │
+  │ bookingId  │   │ bookingId  │   │ bookingId        │
+  │ items      │   │ items      │   │ vehicleType      │
+  │ amount     │   │ amount     │   │ pickupPoint      │
+  │ status     │   │ delivDate  │   │ amount           │
+  └────────────┘   └────────────┘   └──────────────────┘
+
+  ┌────────────┐            ┌────────────────┐
+  │  COMPLAINT │            │     STAFF      │
+  │────────────│            │────────────────│
+  │complaintId │            │ staffId (PK)   │
+  │ bookingId  │            │ name           │
+  │ category   │            │ position       │
+  │ priority   │            │ salary         │
+  │ status     │            │ shift          │
+  └────────────┘            └────────────────┘
+
+  Relationships:
+    CUSTOMER ──1:1──▶ ROOM           (one booking per room at a time)
+    CUSTOMER ──1:N──▶ FOOD_ORDER     (many food orders per booking)
+    CUSTOMER ──1:N──▶ LAUNDRY        (many laundry orders per booking)
+    CUSTOMER ──1:N──▶ TRANSPORT      (many transport bookings)
+    CUSTOMER ──1:N──▶ COMPLAINT      (many complaints per booking)
+    CUSTOMER ──1:N──▶ PAYMENT        (advance + due payments)
+    STAFF    ──independent entity
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DIAGRAM 4: BOOKING FLOWCHART
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  START
+    │
+    ▼
+  [Show Available Rooms]
+    │
+    ▼
+  [Enter Personal Info] ──── Validation Failed? ──▶ Re-enter
+    │ Passed
+    ▼
+  [Enter ID Verification]
+    │
+    ▼
+  [Select Room ID + Days + Guests]
+    │
+    ├── Room Booked? ──▶ ERROR: Room not available
+    │
+    ├── Guests > Capacity? ──▶ ERROR: Over capacity
+    │
+    ▼
+  [Enter Special Requests] (optional)
+    │
+    ▼
+  [Calculate Bill]
+    roomCharge = price × days
+    tax = 12%, service = 5%, VAT = 15%
+    total = roomCharge + all charges
+    │
+    ▼
+  [Select Payment Method]
+    │
+    ▼
+  [Enter Advance Payment]
+    │
+    ├── Advance < 30% total? ──▶ ERROR: Minimum 30%
+    │
+    ▼
+  [Show Booking Summary]
+    │
+    ├── Confirm? = No ──▶ CANCELLED
+    │
+    ▼ Yes
+  [Assign Booking ID]
+  [Mark Room as Booked]
+  [Save to customers.txt]
+  [Record Payment]
+  [Generate Invoice]
+    │
+    ▼
+  SUCCESS: Booking Confirmed!
+    │
+    ▼
+  END
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DIAGRAM 5: CHECKOUT FLOWCHART
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  START
+    │
+    ▼
+  [Show Active Bookings]
+    │
+    ▼
+  [Enter Booking ID]
+    │
+    ├── Not found? ──▶ ERROR
+    │
+    ▼
+  [Calculate Total Bill]
+    roomCharge + food + laundry + transport
+    due = totalBill - advancePaid
+    │
+    ▼
+  [Show Final Bill]
+    │
+    ├── Due > 0?
+    │     │
+    │     ▼
+    │   [Collect Due Payment]
+    │     │
+    │     ├── Paid > Due? ──▶ Show Change
+    │     │
+    │     ▼
+    │   [Record Payment]
+    │
+    ▼
+  [Collect Feedback]
+    rating + comments + recommend?
+    │
+    ▼
+  [Generate Final Invoice]
+    │
+    ▼
+  [Mark Room as Available]
+    │
+    ▼
+  [Remove Customer from Active List]
+    │
+    ▼
+  [Save All Data]
+    │
+    ▼
+  SUCCESS: Checkout Complete!
+    │
+    ▼
+  END
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DIAGRAM 6: LOGIN & ROLE-ACCESS FLOWCHART
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  START
+    │
+    ▼
+  [Show Login Screen]
+    │
+    ▼
+  [Enter Username + Password]
+    │
+    ▼
+  [Read credentials.txt]
+    │
+    ├── Match found?
+    │       │ No
+    │       ▼
+    │   [Increment attempt counter]
+    │       │
+    │       ├── attempts >= 3? ──▶ EXIT PROGRAM
+    │       │
+    │       ▼
+    │   [Re-prompt login]
+    │
+    ▼ Yes: role assigned
+    │
+    ├── Role == "Admin"         ──▶ adminMenu() [31 options]
+    ├── Role == "Receptionist"  ──▶ receptionistMenu() [11 options]
+    └── Role == "Manager"       ──▶ managerMenu() [10 options]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END OF DIAGRAMS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

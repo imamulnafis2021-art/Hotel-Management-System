@@ -1,0 +1,230 @@
+============================================================
+     STARLIGHT HOTEL MANAGEMENT SYSTEM v7.0
+           PRESENTATION CONTENT (PPT SCRIPT)
+============================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 1: TITLE SLIDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title:    STARLIGHT HOTEL MANAGEMENT SYSTEM
+Subtitle: A Professional C++17 OOP Project
+Version:  7.0 — 14-Phase Architecture
+Visual:   Hotel logo / building icon, colored background
+
+Speaker notes:
+  "This project demonstrates all major OOP concepts by
+  building a fully functional hotel management system
+  from a procedural codebase, upgraded in 14 phases."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 2: PROBLEM STATEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: Why We Built This
+
+Bullet points:
+• Hotels have complex operations: rooms, guests, billing,
+  staff, food, laundry, transport, complaints
+• Manual processes are slow and error-prone
+• Original code was a single procedural file with
+  global variables and no OOP structure
+• Goal: Upgrade to production-quality OOP design
+
+Visual: Split — "Before" (messy code) vs "After" (clean UML)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 3: 14-PHASE UPGRADE ROADMAP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: Development Phases
+
+Timeline diagram (2 columns):
+  Phase 1:  OOP Refactoring        Phase 8:  Invoice Generation
+  Phase 2:  Inheritance            Phase 9:  Better Validation
+  Phase 3:  Polymorphism           Phase 10: Date Management
+  Phase 4:  File Persistence       Phase 11: Date-Based Availability
+  Phase 5:  Login System           Phase 12: Advanced Dashboard
+  Phase 6:  Search System          Phase 13: Smart Recommendation
+  Phase 7:  Sorting System         Phase 14: Multi-File Architecture
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 4: CLASS HIERARCHY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: Inheritance & Polymorphism
+
+UML diagram:
+  ┌─────────────────────────────┐
+  │  <<abstract>> Person        │
+  │─────────────────────────────│
+  │ # name : string             │
+  │ # phone : string            │
+  │ # address : string          │
+  │ # email : string            │
+  │─────────────────────────────│
+  │ + displayInfo() = 0         │  ← pure virtual
+  └──────────────┬──────────────┘
+         ┌───────┴───────┐
+  ┌──────▼──────┐  ┌─────▼──────┐
+  │  Customer   │  │   Staff    │
+  │─────────────│  │────────────│
+  │ bookingId   │  │ staffId    │
+  │ roomId      │  │ position   │
+  │ totalBill   │  │ salary     │
+  │─────────────│  │────────────│
+  │displayInfo()│  │displayInfo()│
+  └─────────────┘  └────────────┘
+
+Speaker: "Person is abstract. Customer IS-A Person.
+  Staff IS-A Person. Runtime polymorphism via Person*."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 5: SYSTEM ARCHITECTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: Multi-File Architecture
+
+3-layer architecture diagram:
+  ┌────────────────────────────────────┐
+  │  PRESENTATION LAYER                │
+  │  Colored menus, role-based access  │
+  ├────────────────────────────────────┤
+  │  BUSINESS LOGIC LAYER              │
+  │  HotelManagementSystem             │
+  │  (Room, Booking, Payment, Reports) │
+  ├────────────────────────────────────┤
+  │  DOMAIN LAYER                      │
+  │  Person → Customer, Staff          │
+  │  Room, Booking, Payment structs    │
+  ├────────────────────────────────────┤
+  │  DATA LAYER                        │
+  │  FileManager + 8 text files        │
+  └────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 6: KEY FEATURES (1/2)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: Core Modules
+
+Icon grid (6 boxes):
+  🏨 Room Management    → Add, Search, Sort, Recommend
+  📋 Booking Wizard     → 6-step with validation
+  💳 Checkout           → Full billing, invoice
+  🍽️ Food Service       → 11-item menu + custom
+  👕 Laundry            → 9 items, delivery tracking
+  🚗 Transport          → 5 vehicle types, scheduling
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 7: KEY FEATURES (2/2)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: Advanced Modules
+
+Icon grid (6 boxes):
+  📊 Analytics Dashboard  → 12 KPIs, monthly revenue
+  🔐 Role-Based Login     → Admin, Receptionist, Manager
+  🔍 Search & Sort        → STL algorithms throughout
+  📄 Auto-Invoice         → PDF-style text invoices
+  💡 Room Recommender     → Budget + guests matching
+  💾 Full Persistence     → All 8 data types to files
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 8: OOP CONCEPTS — CODE EXAMPLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: OOP in Code
+
+Code snippet box 1 (Inheritance):
+  class Person {
+  protected:
+      std::string name, phone;
+  public:
+      virtual void displayInfo() const = 0; // abstract
+  };
+  class Customer : public Person {
+      int bookingId;
+  public:
+      void displayInfo() const override; // polymorphism
+  };
+
+Code snippet box 2 (STL Sort):
+  std::sort(rooms.begin(), rooms.end(),
+    [](const Room& a, const Room& b){
+        return a.getPrice() < b.getPrice();
+    });
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 9: BILLING BREAKDOWN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: Automatic Bill Calculation
+
+Pie/bar chart concept:
+  Room Base Charge    → price × days
+  + Tax         12%
+  + Service Charge 5%
+  + VAT         15%
+  = Total Bill
+  - Advance Paid
+  = Due Amount
+
+Sample: Room $100 × 3 days = $300
+  Tax $36 + Service $15 + VAT $45 = $96 extra
+  Total = $396 | Advance = $118.80 (30%)
+  Due at checkout = $277.20
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 10: TESTING RESULTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: All Tests Passed ✓
+
+Table:
+  Test Case                   Result
+  ────────────────────────────────────
+  Compilation (0 warnings)    ✓ PASS
+  Login & Role Restriction    ✓ PASS
+  Room Add / Search / Sort    ✓ PASS
+  6-Step Booking Wizard       ✓ PASS
+  Email Regex Validation      ✓ PASS
+  Invoice Generation          ✓ PASS
+  Data Persistence (restart)  ✓ PASS
+  Checkout + Change Calc      ✓ PASS
+  Advanced Dashboard KPIs     ✓ PASS
+  Smart Room Recommendation   ✓ PASS
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 11: CONCLUSION & FUTURE WORK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: Summary & Next Steps
+
+Left box — Achieved:
+  ✓ Full OOP with all 4 pillars
+  ✓ 14 phases implemented
+  ✓ 14 modules, 3 user roles
+  ✓ 0 warnings, C++17 standard
+  ✓ All original features preserved
+
+Right box — Future:
+  → SQLite database backend
+  → Qt GUI interface
+  → Email notifications
+  → Online reservation calendar
+  → PDF invoice export
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 12: THANK YOU / Q&A
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Title: Thank You!
+
+  STARLIGHT HOTEL MANAGEMENT SYSTEM v7.0
+  Built with C++17 | OOP | STL | 14 Phases
+
+  Questions? We're ready.
+
+  GitHub: [your repo]
+  Email:  [your email]

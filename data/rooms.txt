@@ -1,0 +1,12 @@
+1
+101
+Single
+100
+2
+0
+Wifi,TV
+1
+City
+3
+Single
+Central
